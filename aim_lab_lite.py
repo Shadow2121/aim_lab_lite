@@ -2,19 +2,25 @@ import pygame
 import sys
 import time
 import random
+import pickle
+import math
 
 pygame.init()
 win = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("AIM_LAB_Lite")
+# pygame.mouse.set_visible(False)
 x = random.randint(0, 750)
 y = random.randint(0, 550)
 r = random.randint(0, 255)
 g = random.randint(0, 255)
 b = random.randint(0, 255)
+# high_score = pickle.load(open("score.dat", "rb"))
+# high_score_1 = high_score[0]
+# high_score_2 = high_score[1]
+# high_score_3 = high_score[2]
 high_score_1 = 0
 high_score_2 = 0
 high_score_3 = 0
-
 
 def mainwinnDrow():
     global i,j,k
@@ -44,13 +50,15 @@ def easy(win):
     global r,g,b,x,y,high_score_1
     score = 0
     miss = 0
-    pygame.draw.rect(win, (r, g, b), (x, y, 50, 50))
+    # pygame.draw.rect(win, (r, g, b), (x, y, 50, 50))
+    pygame.draw.circle(win, (r,g,b), (x,y), 25)
     win.fill((0,0,0))
     #print("hello")
     start_time = time.time()
     run = True
     while run:
-        pygame.draw.rect(win, (r,g,b), (x,y,50,50))
+        # pygame.draw.rect(win, (r,g,b), (x,y,50,50))
+        pygame.draw.circle(win, (r,g,b), (x,y), 25)
         fs = pygame.font.SysFont('comicsans', 25)
         ts = fs.render("SCORE: " + str(score), 1, (255, 255, 255))
         win.blit(ts, (650, 10))
@@ -67,7 +75,11 @@ def easy(win):
             if e.type == pygame.MOUSEBUTTONDOWN:
                 xx, yy = pygame.mouse.get_pos()
                 # print(xx, yy)
-                if xx in range(x, x+50) and yy in range(y, y+50):
+                ## for squres 
+                # if xx in range(x, x+50) and yy in range(y, y+50):
+
+                ## for circle
+                if math.sqrt((xx - x)**2 + (yy - y)**2) <= 25:
                     x = random.randint(30, 750)
                     y = random.randint(30, 550)
                     r = random.randint(100, 255)
@@ -129,7 +141,8 @@ def medium(win):
     start_time = time.time()
     run = True
     while run:
-        pygame.draw.rect(win, (r,g,b), (x,y,35,35))
+        # pygame.draw.rect(win, (r,g,b), (x,y,35,35))
+        pygame.draw.circle(win, (r,g,b), (x,y), 12)
         fs = pygame.font.SysFont('comicsans', 25)
         ts = fs.render("SCORE: " + str(score), 1, (255, 255, 255))
         win.blit(ts, (650, 10))
@@ -145,7 +158,8 @@ def medium(win):
             if e.type == pygame.MOUSEBUTTONDOWN:
                 xx, yy = pygame.mouse.get_pos()
                 # print(xx, yy)
-                if xx in range(x, x+35) and yy in range(y, y+35):
+                # if xx in range(x, x+35) and yy in range(y, y+35):
+                if math.sqrt((xx - x)**2 + (yy - y)**2) <= 12:
                     x = random.randint(30, 750)
                     y = random.randint(30, 550)
                     r = random.randint(100, 255)
@@ -206,7 +220,8 @@ def hard(win):
     start_time = time.time()
     run = True
     while run:
-        pygame.draw.rect(win, (r,g,b), (x,y,20,20))
+        # pygame.draw.rect(win, (r,g,b), (x,y,20,20))
+        pygame.draw.circle(win, (r,g,b), (x,y), 7)
         fs = pygame.font.SysFont('comicsans', 25)
         ts = fs.render("SCORE: " + str(score), 1, (255, 255, 255))
         win.blit(ts, (650, 10))
@@ -222,7 +237,8 @@ def hard(win):
             if e.type == pygame.MOUSEBUTTONDOWN:
                 xx, yy = pygame.mouse.get_pos()
                 # print(xx, yy)
-                if xx in range(x, x+20) and yy in range(y, y+20):
+                # if xx in range(x, x+20) and yy in range(y, y+20):
+                if math.sqrt((xx - x)**2 + (yy - y)**2) <= 7:
                     x = random.randint(30, 750)
                     y = random.randint(30, 550)
                     r = random.randint(100, 255)
@@ -282,6 +298,9 @@ run = True
 while run:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
+            # high_score = [high_score_1, high_score_2, high_score_3]
+            # # print(high_score)
+            # pickle.dump(high_score, open("score.dat", "wb"))
             pygame.quit()
             sys.exit()
         # if e.type == pygame.MOUSEBUTTONDOWN:
@@ -315,6 +334,5 @@ while run:
 
     time.sleep(0.03)
     pygame.display.update()
-
 
 pygame.quit()
